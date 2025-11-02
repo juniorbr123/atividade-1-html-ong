@@ -1,0 +1,261 @@
+/* --- Base e Configurações Globais --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f8f8;
+}
+
+/* Container principal para centralizar o conteúdo */
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+h1, h2, h3 {
+    color: #2c5f2d; /* Verde escuro */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+img {
+    max-width: 100%; /* Imagens sempre se ajustam ao espaço disponível */
+    height: auto;
+    display: block; /* Remove espaço extra abaixo das imagens */
+    margin: 15px auto;
+    border-radius: 8px; /* Cantos levemente arredondados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    color: #4CAF50; /* Verde vibrante */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Header (Cabeçalho) --- */
+header {
+    background-color: #4CAF50; /* Verde vibrante */
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-size: 2.5em;
+    padding-bottom: 10px;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Flexbox para alinhar os itens na navegação */
+    justify-content: center; /* Centraliza os itens */
+    gap: 20px; /* Espaço entre os itens */
+}
+
+header nav a {
+    color: white;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Efeito suave ao passar o mouse */
+}
+
+header nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+}
+
+/* --- Sections e Articles --- */
+section {
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+article {
+    background-color: #fdfdfd;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+article h3 {
+    color: #388e3c; /* Um verde um pouco mais escuro */
+    margin-top: 0;
+}
+
+aside {
+    background-color: #e8f5e9; /* Um verde bem clarinho */
+    padding: 20px;
+    margin-top: 20px;
+    border-left: 5px solid #66bb6a; /* Detalhe lateral verde */
+    border-radius: 0 8px 8px 0; /* Apenas na lateral direita */
+}
+
+aside h2 {
+    color: #4CAF50;
+    text-align: left;
+    margin-top: 0;
+}
+
+/* --- Formulários (Página de Cadastro) --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fefefe;
+}
+
+legend {
+    font-weight: bold;
+    color: #2c5f2d;
+    padding: 0 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+label {
+    display: block; /* Cada label em uma nova linha */
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="tel"],
+input[type="number"],
+input[type="password"] {
+    width: calc(100% - 22px); /* 100% menos o padding e a borda */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Garante que padding não aumente a largura total */
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start; /* Alinha o botão à esquerda dentro do formulário flex */
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #388e3c; /* Verde mais escuro ao passar o mouse */
+}
+
+/* --- Footer (Rodapé) --- */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 30px;
+    font-size: 0.9em;
+}
+
+/* --- Responsividade com Media Queries --- */
+/* Para telas menores que 768px (tablets e celulares) */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    header nav ul {
+        flex-direction: column; /* Itens do menu um abaixo do outro */
+        gap: 5px;
+    }
+
+    header nav li {
+        text-align: center;
+    }
+
+    main {
+        margin: 10px auto;
+        padding: 0 10px;
+    }
+
+    section, article, aside {
+        padding: 20px;
+    }
+
+    form {
+        gap: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="password"] {
+        width: 100%; /* Ocupa toda a largura disponível */
+        margin-bottom: 10px;
+    }
+
+    button[type="submit"] {
+        width: 100%; /* Botão ocupa toda a largura */
+        align-self: stretch; /* Estica para a largura total */
+    }
+}
+
+/* Para telas menores que 480px (principalmente celulares) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header nav a {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.2em;
+    }
+
+    section, article, aside {
+        padding: 15px;
+    }
+
+    footer {
+        padding: 1rem 0;
+    }
+}
