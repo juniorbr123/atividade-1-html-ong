@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             {
                 titulo: 'Mutirão Refloresta SP',
                 imagem: 'img/home-banner.jpg', // Reutilizando a imagem
-                alt: 'Voluntários plantando árvores.',
+                alt: 'Voluntários plantando árvGores.',
                 descricao: 'Nosso próximo grande mutirão de plantio. Junte-se a nós para reflorestar a Serra da Cantareira. Inscrições abertas!'
             }
         ];
@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const campos = {
             nome: document.getElementById('nome'),
             email: document.getElementById('email'),
+            nascimento: document.getElementById('nascimento'), // Adicionado para verificação
             cpf: document.getElementById('cpf'),
             telefone: document.getElementById('telefone'),
             cep: document.getElementById('cep'),
@@ -68,25 +69,19 @@ document.addEventListener('DOMContentLoaded', () => {
             estado: document.getElementById('estado')
         };
 
-        // --- NOVO: Funções de Máscara Automática ---
-        // Elas rodam a cada tecla digitada
-
+        // --- Funções de Máscara Automática ---
         function mascaraCPF(input) {
-            let valor = input.value.replace(/\D/g, ''); // Remove tudo que não é dígito
-            valor = valor.slice(0, 11); // Limita a 11 dígitos
-            
-            // Aplica a máscara progressivamente
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2'); // 000.0
-            valor = valor.replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3'); // 000.000.0
-            valor = valor.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, '$1.$2.$3-$4'); // 000.000.000-00
+            let valor = input.value.replace(/\D/g, ''); 
+            valor = valor.slice(0, 11); 
+            valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+            valor = valor.replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+            valor = valor.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
             input.value = valor;
         }
 
         function mascaraTelefone(input) {
             let valor = input.value.replace(/\D/g, '');
-            valor = valor.slice(0, 11); // Limita a 11 dígitos (DDD + 9 dígitos)
-
-            // Aplica a máscara (00) 00000-0000
+            valor = valor.slice(0, 11);
             valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2'); 
             valor = valor.replace(/(\d{5})(\d{1,4})$/, '$1-$2');
             input.value = valor;
@@ -94,29 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function mascaraCEP(input) {
             let valor = input.value.replace(/\D/g, '');
-            valor = valor.slice(0, 8); // Limita a 8 dígitos
-
-            // Aplica a máscara 00000-000
+            valor = valor.slice(0, 8);
             valor = valor.replace(/(\d{5})(\d{1,3})$/, '$1-$2');
             input.value = valor;
         }
 
-        // --- NOVO: Conecta as máscaras aos inputs ---
-        // "Escuta" o evento 'input' (cada vez que o usuário digita algo)
+        // Conecta as máscaras aos inputs
         campos.cpf.addEventListener('input', () => mascaraCPF(campos.cpf));
         campos.telefone.addEventListener('input', () => mascaraTelefone(campos.telefone));
         campos.cep.addEventListener('input', () => mascaraCEP(campos.cep));
-
-        // --- Fim das novas adições de máscara ---
-
 
         // Regras de validação (Expressões Regulares)
         const validacoes = {
             nome: (input) => input.value.trim().length >= 3,
             email: (input) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value),
-            cpf: (input) => /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(input.value), // Valida o formato final
-            telefone: (input) => /^\(\d{2}\) \d{5}-\d{4}$/.test(input.value), // Valida o formato final
-            cep: (input) => /^\d{5}-\d{3}$/.test(input.value), // Valida o formato final
+            nascimento: (input) => input.value.length > 0, // Apenas verifica se não está vazio
+            cpf: (input) => /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(input.value),
+            telefone: (input) => /^\(\d{2}\) \d{5}-\d{4}$/.test(input.value),
+            cep: (input) => /^\d{5}-\d{3}$/.test(input.value),
             endereco: (input) => input.value.trim().length >= 5,
             cidade: (input) => input.value.trim().length >= 3,
             estado: (input) => input.value.trim().length === 2
@@ -126,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensagensErro = {
             nome: 'O nome deve ter pelo menos 3 caracteres.',
             email: 'Por favor, insira um e-mail válido.',
+            nascimento: 'Por favor, selecione sua data de nascimento.',
             cpf: 'Formato de CPF inválido. Use 000.000.000-00.',
             telefone: 'Formato de telefone inválido. Use (00) 00000-0000.',
             cep: 'Formato de CEP inválido. Use 00000-000.',
@@ -134,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             estado: 'O estado deve ter 2 caracteres (ex: SP).'
         };
 
-        // Função para mostrar o aviso de erro ao usuário
+        // --- Função para mostrar o aviso de erro (COM ACESSIBILIDADE) ---
         function mostrarErro(campoNome, mensagem) {
             const input = campos[campoNome];
             const errorDiv = document.getElementById(`error-${campoNome}`);
@@ -142,15 +133,23 @@ document.addEventListener('DOMContentLoaded', () => {
             errorDiv.textContent = mensagem; 
             input.classList.add('invalid'); 
             input.classList.remove('valid');
+
+            // Conecta o input à mensagem de erro para leitores de tela
+            input.setAttribute('aria-invalid', 'true');
+            input.setAttribute('aria-describedby', `error-${campoNome}`);
         }
 
-        // Função para limpar o aviso de erro
+        // --- Função para limpar o aviso (COM ACESSIBILIDADE) ---
         function limparErro(campoNome) {
             const input = campos[campoNome];
             const errorDiv = document.getElementById(`error-${campoNome}`);
             
             errorDiv.textContent = ''; 
             input.classList.remove('invalid');
+
+            // Remove a conexão de erro
+            input.removeAttribute('aria-invalid');
+            input.removeAttribute('aria-describedby');
         }
 
         // Adiciona o "escutador" de evento ao formulário
@@ -162,25 +161,45 @@ document.addEventListener('DOMContentLoaded', () => {
             // Valida cada campo do formulário
             for (const nomeCampo in campos) {
                 const input = campos[nomeCampo];
-                const ehValido = validacoes[nomeCampo](input);
-                
-                if (!ehValido) {
-                    formularioValido = false;
-                    mostrarErro(nomeCampo, mensagensErro[nomeCampo]);
-                } else {
-                    limparErro(nomeCampo);
-                    input.classList.add('valid'); 
+                // Verifica se o campo existe antes de validar (evita erros)
+                if (input) {
+                    // Trata o `required` do HTML (como em "nascimento")
+                    const ehValido = (input.required && input.value.trim() === '') ? false : validacoes[nomeCampo](input);
+                    
+                    if (!ehValido) {
+                        formularioValido = false;
+                        // Usa a mensagem padrão do `required` ou a nossa
+                        let msg = (input.required && input.value.trim() === '') ? 'Este campo é obrigatório.' : mensagensErro[nomeCampo];
+                        // Tratamento especial para "nascimento"
+                        if (nomeCampo === 'nascimento' && !ehValido) msg = mensagensErro.nascimento;
+
+                        mostrarErro(nomeCampo, msg);
+                    } else {
+                        limparErro(nomeCampo);
+                        input.classList.add('valid'); 
+                    }
                 }
             }
 
             // Se tudo estiver correto, mostra o alerta de sucesso
             if (formularioValido) {
                 alert('Cadastro enviado com sucesso! Obrigado por se juntar à Raízes do Amanhã.');
+                
+                // Salva o primeiro nome no localStorage
+                try {
+                    localStorage.setItem('nomeUsuario', campos.nome.value.split(' ')[0]);
+                } catch (e) {
+                    console.warn('Não foi possível salvar no localStorage.');
+                }
+
                 formCadastro.reset(); 
                 
                 // Remove as classes de validação (bordas verdes)
                 for (const nomeCampo in campos) {
-                    campos[nomeCampo].classList.remove('valid');
+                    if (campos[nomeCampo]) {
+                        campos[nomeCampo].classList.remove('valid');
+                        limparErro(nomeCampo); // Garante que as mensagens de erro sumam
+                    }
                 }
             } else {
                 // Se houver erros, avisa o usuário
@@ -188,5 +207,77 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     } // Fim da lógica da página de Cadastro
+
+
+    /* --- PARTE 3: SAUDAÇÃO (Página index.html) --- */
+
+    // Seleciona o H2 da home
+    const saudacaoEl = document.getElementById('saudacao-principal');
+
+    // Esta verificação garante que o código SÓ rode na página Home
+    if (saudacaoEl) {
+        try {
+            // Tenta ler o nome salvo no localStorage
+            const nomeUsuario = localStorage.getItem('nomeUsuario');
+            if (nomeUsuario) {
+                // Modifica o DOM para incluir a saudação
+                saudacaoEl.textContent = `Olá, ${nomeUsuario}! Bem-vindo(a) de volta!`;
+            }
+        } catch (e) {
+            console.warn('Não foi possível ler do localStorage.');
+        }
+    } // Fim da lógica da página Home
+
+
+    /* --- PARTE 4: LÓGICA DO MODO ESCURO (Todas as páginas) --- */
+
+    // Seleciona o botão e o elemento <html>
+    const themeToggle = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement; // O <html>
+
+    // 1. Verifica no localStorage se o usuário JÁ TEM uma preferência salva
+    try {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.setAttribute('data-theme', savedTheme);
+            // Atualiza o ícone do botão
+            if (savedTheme === 'dark' && themeToggle) { // Verifica se o botão existe
+                themeToggle.textContent = '🌙';
+            } else if (themeToggle) {
+                themeToggle.textContent = '☀️';
+            }
+        }
+    } catch (e) {
+        console.warn('Não foi possível ler o tema salvo no localStorage.');
+    }
+
+
+    // 2. Adiciona o "escutador" de clique no botão de tema
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            // Verifica qual tema está ativo no momento
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                // Se estiver escuro, muda para claro
+                htmlElement.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+                try {
+                    localStorage.setItem('theme', 'light'); // Salva a preferência
+                } catch (e) {
+                    console.warn('Não foi possível salvar o tema no localStorage.');
+                }
+            } else {
+                // Se estiver claro (ou nulo), muda para escuro
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌙';
+                try {
+                    localStorage.setItem('theme', 'dark'); // Salva a preferência
+                } catch (e) {
+                    console.warn('Não foi possível salvar o tema no localStorage.');
+                }
+            }
+        });
+    } // Fim da lógica do Modo Escuro
 
 }); // Fim do DOMContentLoaded

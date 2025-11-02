@@ -1,13 +1,74 @@
-/* --- Base e Configurações Globais --- */
+/* --- PARTE 1: SISTEMA DE DESIGN E VARIÁVEIS (Atividade 4) --- */
+
+/* :root define as variáveis para o tema claro (padrão) */
+:root {
+    --cor-fundo: #f8f8f8;
+    --cor-fundo-secundario: #ffffff;
+    --cor-fundo-aside: #e8f5e9;
+    --cor-fundo-header: #4CAF50;
+    --cor-fundo-footer: #333;
+
+    --cor-texto-primario: #333;
+    --cor-texto-secundario: #555;
+    --cor-texto-header: #ffffff;
+    --cor-texto-footer: #ffffff;
+
+    --cor-borda: #ddd;
+    --cor-borda-input: #ccc;
+    --cor-sombra: rgba(0, 0, 0, 0.1);
+    --cor-hover-nav: rgba(255, 255, 255, 0.2);
+
+    --cor-verde-primario: #4CAF50;
+    --cor-verde-secundario: #388e3c;
+    --cor-verde-titulo: #2c5f2d;
+    
+    --cor-erro: #e74c3c;
+    --cor-sucesso: #2ecc71;
+    --fundo-erro: #fbeae9;
+}
+
+/* Define as variáveis para o tema escuro */
+[data-theme="dark"] {
+    --cor-fundo: #121212;
+    --cor-fundo-secundario: #1e1e1e;
+    --cor-fundo-aside: #1c2b1d;
+    --cor-fundo-header: #388e3c;
+    --cor-fundo-footer: #1e1e1e;
+
+    --cor-texto-primario: #e0e0e0;
+    --cor-texto-secundario: #b0b0b0;
+    --cor-texto-header: #ffffff;
+    --cor-texto-footer: #e0e0e0;
+
+    --cor-borda: #444;
+    --cor-borda-input: #555;
+    --cor-sombra: rgba(255, 255, 255, 0.05);
+    --cor-hover-nav: rgba(0, 0, 0, 0.2);
+
+    --cor-verde-primario: #4CAF50;
+    --cor-verde-secundario: #66bb6a;
+    --cor-verde-titulo: #66bb6a;
+    
+    --cor-erro: #f48fb1;
+    --cor-sucesso: #81c784;
+    --fundo-erro: #2e1c1c;
+}
+
+/* Adiciona uma transição suave entre os temas */
+body, header, footer, section, article, aside, input, button {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+
+/* --- PARTE 2: ESTILOS GLOBAIS (Refatorados) --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     line-height: 1.6;
-    color: #333;
-    background-color: #f8f8f8;
+    color: var(--cor-texto-primario);
+    background-color: var(--cor-fundo);
 }
 
-/* Container principal para centralizar o conteúdo */
 main {
     max-width: 1200px;
     margin: 20px auto;
@@ -15,7 +76,7 @@ main {
 }
 
 h1, h2, h3 {
-    color: #2c5f2d; /* Verde escuro */
+    color: var(--cor-verde-titulo);
     text-align: center;
     margin-bottom: 20px;
 }
@@ -25,16 +86,16 @@ p {
 }
 
 img {
-    max-width: 100%; /* Imagens sempre se ajustam ao espaço disponível */
+    max-width: 100%;
     height: auto;
-    display: block; /* Remove espaço extra abaixo das imagens */
+    display: block;
     margin: 15px auto;
-    border-radius: 8px; /* Cantos levemente arredondados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--cor-sombra);
 }
 
 a {
-    color: #4CAF50; /* Verde vibrante */
+    color: var(--cor-verde-primario);
     text-decoration: none;
 }
 
@@ -42,18 +103,19 @@ a:hover {
     text-decoration: underline;
 }
 
-/* --- Header (Cabeçalho) --- */
+/* --- Header (Refatorado) --- */
 header {
-    background-color: #4CAF50; /* Verde vibrante */
-    color: white;
+    background-color: var(--cor-fundo-header);
+    color: var(--cor-texto-header);
     padding: 1rem 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px var(--cor-sombra);
+    position: relative; /* Necessário para o botão de tema */
 }
 
 header h1 {
     margin: 0;
     text-align: center;
-    color: white;
+    color: var(--cor-texto-header);
     font-size: 2.5em;
     padding-bottom: 10px;
 }
@@ -62,61 +124,61 @@ header nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex; /* Flexbox para alinhar os itens na navegação */
-    justify-content: center; /* Centraliza os itens */
-    gap: 20px; /* Espaço entre os itens */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 header nav a {
-    color: white;
+    color: var(--cor-texto-header);
     font-weight: bold;
     padding: 8px 15px;
     border-radius: 5px;
-    transition: background-color 0.3s ease; /* Efeito suave ao passar o mouse */
+    transition: background-color 0.3s ease;
 }
 
 header nav a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--cor-hover-nav);
     text-decoration: none;
 }
 
-/* --- Sections e Articles --- */
+/* --- Seções e Artigos (Refatorados) --- */
 section {
-    background-color: white;
+    background-color: var(--cor-fundo-secundario);
     padding: 30px;
     margin-bottom: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 10px var(--cor-sombra);
 }
 
 article {
-    background-color: #fdfdfd;
+    background-color: var(--cor-fundo-secundario);
     padding: 25px;
     margin-top: 20px;
     border-radius: 6px;
-    border: 1px solid #eee;
+    border: 1px solid var(--cor-borda);
 }
 
 article h3 {
-    color: #388e3c; /* Um verde um pouco mais escuro */
+    color: var(--cor-verde-secundario);
     margin-top: 0;
 }
 
 aside {
-    background-color: #e8f5e9; /* Um verde bem clarinho */
+    background-color: var(--cor-fundo-aside);
     padding: 20px;
     margin-top: 20px;
-    border-left: 5px solid #66bb6a; /* Detalhe lateral verde */
-    border-radius: 0 8px 8px 0; /* Apenas na lateral direita */
+    border-left: 5px solid var(--cor-verde-secundario);
+    border-radius: 0 8px 8px 0;
 }
 
 aside h2 {
-    color: #4CAF50;
+    color: var(--cor-verde-primario);
     text-align: left;
     margin-top: 0;
 }
 
-/* --- Formulários (Página de Cadastro) --- */
+/* --- Formulários (Refatorados) --- */
 form {
     display: flex;
     flex-direction: column;
@@ -124,25 +186,25 @@ form {
 }
 
 fieldset {
-    border: 1px solid #ccc;
+    border: 1px solid var(--cor-borda-input);
     padding: 20px;
     border-radius: 8px;
-    background-color: #fefefe;
+    background-color: var(--cor-fundo-secundario);
 }
 
 legend {
     font-weight: bold;
-    color: #2c5f2d;
+    color: var(--cor-verde-titulo);
     padding: 0 10px;
-    background-color: white;
+    background-color: var(--cor-fundo-secundario); /* Corrigido */
     border-radius: 5px;
 }
 
 label {
-    display: block; /* Cada label em uma nova linha */
+    display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    color: #555;
+    color: var(--cor-texto-secundario);
 }
 
 input[type="text"],
@@ -151,51 +213,72 @@ input[type="date"],
 input[type="tel"],
 input[type="number"],
 input[type="password"] {
-    width: calc(100% - 22px); /* 100% menos o padding e a borda */
+    width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--cor-borda);
     border-radius: 5px;
     font-size: 1em;
-    box-sizing: border-box; /* Garante que padding não aumente a largura total */
+    box-sizing: border-box;
+    background-color: var(--cor-fundo); /* Fundo do input */
+    color: var(--cor-texto-primario); /* Texto do input */
 }
 
 button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--cor-verde-primario);
+    color: var(--cor-texto-header);
     padding: 12px 25px;
     border: none;
     border-radius: 5px;
     font-size: 1.1em;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    align-self: flex-start; /* Alinha o botão à esquerda dentro do formulário flex */
+    align-self: flex-start;
     margin-top: 10px;
 }
 
 button[type="submit"]:hover {
-    background-color: #388e3c; /* Verde mais escuro ao passar o mouse */
+    background-color: var(--cor-verde-secundario);
 }
 
-/* --- Footer (Rodapé) --- */
+/* --- Footer (Refatorado) --- */
 footer {
-    background-color: #333;
-    color: white;
+    background-color: var(--cor-fundo-footer);
+    color: var(--cor-texto-footer);
     text-align: center;
     padding: 1.5rem 0;
     margin-top: 30px;
     font-size: 0.9em;
 }
 
-/* --- Responsividade com Media Queries --- */
-/* Para telas menores que 768px (tablets e celulares) */
+/* --- Validação de Formulário JS (Refatorada) --- */
+.error-message {
+    color: var(--cor-erro);
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    height: 1em;
+}
+
+input.invalid {
+    border: 2px solid var(--cor-erro);
+    background-color: var(--fundo-erro);
+}
+
+input.valid {
+    border: 2px solid var(--cor-sucesso);
+}
+
+
+/* --- Responsividade (Sem mudanças de cor) --- */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
     }
 
     header nav ul {
-        flex-direction: column; /* Itens do menu um abaixo do outro */
+        flex-direction: column;
         gap: 5px;
     }
 
@@ -222,17 +305,16 @@ footer {
     input[type="tel"],
     input[type="number"],
     input[type="password"] {
-        width: 100%; /* Ocupa toda a largura disponível */
+        width: 100%;
         margin-bottom: 10px;
     }
 
     button[type="submit"] {
-        width: 100%; /* Botão ocupa toda a largura */
-        align-self: stretch; /* Estica para a largura total */
+        width: 100%;
+        align-self: stretch;
     }
 }
 
-/* Para telas menores que 480px (principalmente celulares) */
 @media (max-width: 480px) {
     header h1 {
         font-size: 1.8em;
@@ -260,23 +342,23 @@ footer {
     }
 }
 
-/* --- Estilos para Validação JS --- */
-.error-message {
-    color: #e74c3c; /* Vermelho */
-    font-size: 0.9em;
-    font-weight: bold;
-    margin-top: -10px; /* Puxa para perto do input */
-    margin-bottom: 10px;
-    height: 1em; /* Garante espaço mesmo vazio */
+/* --- PARTE 3: Estilo do Botão de Tema (Atividade 4) --- */
+#theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--cor-fundo-secundario);
+    color: var(--cor-texto-primario);
+    border: 2px solid var(--cor-borda);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Borda vermelha para inputs inválidos */
-input.invalid {
-    border: 2px solid #e74c3c;
-    background-color: #fbeae9;
-}
-
-/* Borda verde para inputs válidos */
-input.valid {
-    border: 2px solid #2ecc71;
+#theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--cor-sombra);
 }
