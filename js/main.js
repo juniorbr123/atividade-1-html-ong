@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const campos = {
             nome: document.getElementById('nome'),
             email: document.getElementById('email'),
+            nascimento: document.getElementById('nascimento'), // Adicionado para verificação
             cpf: document.getElementById('cpf'),
             telefone: document.getElementById('telefone'),
             cep: document.getElementById('cep'),
@@ -93,15 +94,16 @@ document.addEventListener('DOMContentLoaded', () => {
             input.value = valor;
         }
 
-        [cite_start]// Conecta as máscaras aos inputs [cite: 599-601]
-        campos.cpf.addEventListener('input', () => mascaraCPF(campos.cpf));
-        campos.telefone.addEventListener('input', () => mascaraTelefone(campos.telefone));
-        campos.cep.addEventListener('input', () => mascaraCEP(campos.cep));
+        // Conecta as máscaras aos inputs
+        if(campos.cpf) campos.cpf.addEventListener('input', () => mascaraCPF(campos.cpf));
+        if(campos.telefone) campos.telefone.addEventListener('input', () => mascaraTelefone(campos.telefone));
+        if(campos.cep) campos.cep.addEventListener('input', () => mascaraCEP(campos.cep));
 
         // Regras de validação (Expressões Regulares)
         const validacoes = {
             nome: (input) => input.value.trim().length >= 3,
             email: (input) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value),
+            nascimento: (input) => input.value.trim().length > 0, // Apenas verifica se não está vazio
             cpf: (input) => /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(input.value),
             telefone: (input) => /^\(\d{2}\) \d{5}-\d{4}$/.test(input.value),
             cep: (input) => /^\d{5}-\d{3}$/.test(input.value),
@@ -114,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensagensErro = {
             nome: 'O nome deve ter pelo menos 3 caracteres.',
             email: 'Por favor, insira um e-mail válido.',
+            nascimento: 'Por favor, selecione sua data de nascimento.',
             cpf: 'Formato de CPF inválido. Use 000.000.000-00.',
             telefone: 'Formato de telefone inválido. Use (00) 00000-0000.',
             cep: 'Formato de CEP inválido. Use 00000-000.',
@@ -131,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.classList.add('invalid'); 
             input.classList.remove('valid');
 
-            [cite_start]// Conecta o input à mensagem de erro para leitores de tela [cite: 1555-1564]
+            // Conecta o input à mensagem de erro para leitores de tela
             input.setAttribute('aria-invalid', 'true');
             input.setAttribute('aria-describedby', `error-${campoNome}`);
         }
@@ -141,12 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const input = campos[campoNome];
             const errorDiv = document.getElementById(`error-${campoNome}`);
             
-            errorDiv.textContent = ''; 
-            input.classList.remove('invalid');
-
-            [cite_start]// Remove a conexão de erro [cite: 1555-1564]
-            input.removeAttribute('aria-invalid');
-            input.removeAttribute('aria-describedby');
+            if(errorDiv) errorDiv.textContent = ''; 
+            if(input) {
+                input.classList.remove('invalid');
+                // Remove a conexão de erro
+                input.removeAttribute('aria-invalid');
+                input.removeAttribute('aria-describedby');
+            }
         }
 
         // Adiciona o "escutador" de evento ao formulário
@@ -176,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (formularioValido) {
                 alert('Cadastro enviado com sucesso! Obrigado por se juntar à Raízes do Amanhã.');
                 
-                [cite_start]// Salva o primeiro nome no localStorage [cite: 1037-1040]
+                // Salva o primeiro nome no localStorage
                 try {
                     localStorage.setItem('nomeUsuario', campos.nome.value.split(' ')[0]);
                 } catch (e) {
@@ -189,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (const nomeCampo in campos) {
                     if (campos[nomeCampo]) {
                         campos[nomeCampo].classList.remove('valid');
+                        limparErro(nomeCampo); // Garante que as mensagens de erro sumam
                     }
                 }
             } else {
@@ -207,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Esta verificação garante que o código SÓ rode na página Home
     if (saudacaoEl) {
         try {
-            [cite_start]// Tenta ler o nome salvo no localStorage [cite: 1037-1040]
+            // Tenta ler o nome salvo no localStorage
             const nomeUsuario = localStorage.getItem('nomeUsuario');
             if (nomeUsuario) {
                 // Modifica o DOM para incluir a saudação
@@ -225,15 +230,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const htmlElement = document.documentElement; // O <html>
 
-    [cite_start]// 1. Verifica no localStorage se o usuário JÁ TEM uma preferência salva [cite: 1037-1040]
+    // 1. Verifica no localStorage se o usuário JÁ TEM uma preferência salva
     try {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             htmlElement.setAttribute('data-theme', savedTheme);
             // Atualiza o ícone do botão
-            if (savedTheme === 'dark') {
+            if (savedTheme === 'dark' && themeToggle) { // Verifica se o botão existe
                 themeToggle.textContent = '🌙';
-            } else {
+            } else if (themeToggle) {
                 themeToggle.textContent = '☀️';
             }
         }
@@ -242,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    [cite_start]// 2. Adiciona o "escutador" de clique no botão de tema [cite: 599-601]
+    // 2. Adiciona o "escutador" de clique no botão de tema
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             // Verifica qual tema está ativo no momento

@@ -271,7 +271,7 @@ input.valid {
 }
 
 
-/* --- Responsividade (Sem mudanças de cor, não precisa refatorar) --- */
+/* --- Responsividade (Sem mudanças de cor) --- */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
@@ -343,27 +343,6 @@ input.valid {
 }
 
 /* --- PARTE 3: Estilo do Botão de Tema (Atividade 4) --- */
-#theme-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: var(--cor-fundo-secundario);
-    color: var(--cor-texto-primario);
-    border: 2px solid var(--cor-borda);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-#theme-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px var(--cor-sombra);
-}
-
-/* --- Estilo do Botão de Tema --- */
 #theme-toggle {
     position: absolute;
     top: 20px;
