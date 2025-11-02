@@ -259,3 +259,24 @@ footer {
         padding: 1rem 0;
     }
 }
+
+/* --- Estilos para Validação JS --- */
+.error-message {
+    color: #e74c3c; /* Vermelho */
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-top: -10px; /* Puxa para perto do input */
+    margin-bottom: 10px;
+    height: 1em; /* Garante espaço mesmo vazio */
+}
+
+/* Borda vermelha para inputs inválidos */
+input.invalid {
+    border: 2px solid #e74c3c;
+    background-color: #fbeae9;
+}
+
+/* Borda verde para inputs válidos */
+input.valid {
+    border: 2px solid #2ecc71;
+}

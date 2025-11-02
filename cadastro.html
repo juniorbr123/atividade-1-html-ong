@@ -25,31 +25,36 @@
             <p>Ficamos felizes com seu interesse! Preencha o formulário abaixo para fazer parte da nossa equipe.</p>
             <img src="img/equipe-unida.jpg" alt="Grupo de voluntários diversos sorrindo juntos.">
 
-            <form action="#" method="post">
+            <form action="#" method="post" id="form-cadastro">
                 
                 <fieldset>
                     <legend>Informações Pessoais</legend>
 
                     <label for="nome">Nome Completo:</label>
                     <input type="text" id="nome" name="nome" required>
+                    <div class="error-message" id="error-nome"></div>
 
                     <label for="email">E-mail:</label>
                     <input type="email" id="email" name="email" placeholder="seuemail@dominio.com" required>
-                    
+                    <div class="error-message" id="error-email"></div>
+
                     <label for="nascimento">Data de Nascimento:</label>
                     <input type="date" id="nascimento" name="nascimento">
-                    
+                    <div class="error-message" id="error-nascimento"></div>
+
                     <label for="cpf">CPF:</label>
                     <input type="text" id="cpf" name="cpf" 
                            pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}" 
                            placeholder="000.000.000-00" 
                            title="Formato: 000.000.000-00" required>
+                    <div class="error-message" id="error-cpf"></div>
                     
                     <label for="telefone">Telefone (com DDD):</label>
                     <input type="tel" id="telefone" name="telefone" 
                            pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" 
                            placeholder="(00) 00000-0000" 
                            title="Formato: (00) 00000-0000" required>
+                    <div class="error-message" id="error-telefone"></div>
                 </fieldset>
 
                 <fieldset>
@@ -60,15 +65,19 @@
                            pattern="[0-9]{5}-[0-9]{3}" 
                            placeholder="00000-000" 
                            title="Formato: 00000-000" required>
+                    <div class="error-message" id="error-cep"></div>
                     
                     <label for="endereco">Endereço (Rua e Nº):</label>
                     <input type="text" id="endereco" name="endereco" required>
+                    <div class="error-message" id="error-endereco"></div>
 
                     <label for="cidade">Cidade:</label>
                     <input type="text" id="cidade" name="cidade" required>
+                    <div class="error-message" id="error-cidade"></div>
 
                     <label for="estado">Estado:</label>
                     <input type="text" id="estado" name="estado" required>
+                    <div class="error-message" id="error-estado"></div>
                 </fieldset>
 
                 <button type="submit">Enviar Cadastro</button>
@@ -80,5 +89,6 @@
         <p>© 2025 Raízes do Amanhã. Todos os direitos reservados.</p>
     </footer>
 
+    <script src="js/main.js" defer></script>
 </body>
 </html>
